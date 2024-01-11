@@ -1,4 +1,4 @@
- import AddPostForm from '../Feautures/AddPostForm'
+ import AddPostForm from '../Features/AddPostForm';
  
  const AddPost =()=> {
     return(

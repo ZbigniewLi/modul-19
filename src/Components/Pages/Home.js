@@ -1,10 +1,11 @@
-import initialState from "../../Redux/initialState";
-import Posts from '../../Components/Feautures/Posts'
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import Posts from '../../Components/Features/Posts'
 
 
 const Home = () => {
 
-    const { posts } = initialState;
+    //const { posts } = initialState;
+    const posts = useSelector((state) => state.posts); 
 
     return (
         <div>

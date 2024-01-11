@@ -8,6 +8,11 @@ const Posts = () => {
 
   const posts = useSelector(getAllPosts);
   console.log(posts);
+
+  if (!Array.isArray(posts)) {
+    return <div>No posts available</div>; // Obsługa sytuacji, gdy posts nie jest tablicą
+  }
+
   
 
   return (
