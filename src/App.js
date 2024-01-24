@@ -9,6 +9,8 @@ import Header from './Components/Vievs/Header'
 import About from './Components/Pages/About'
 import { Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom'
+import Categories from './Components/Pages/Categories'
+import SingleCategory from './Components/Pages/SingleCategory'
 
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
           <Route path="/post/add" element={<AddPost />} />
           <Route path="/post/edit/:id" element={<EditPost />} />
           <Route path="/about" element={<About />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:id" element={<SingleCategory />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

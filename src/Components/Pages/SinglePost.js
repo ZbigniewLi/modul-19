@@ -18,7 +18,7 @@ const SinglePost = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleRemove = () =>  {
+  const handleRemove = () => {
     dispatch(removePost(id))
     navigate('/');
   }
@@ -41,13 +41,14 @@ const SinglePost = () => {
       </Modal>
       <h1>{post.title}</h1>
       <p dangerouslySetInnerHTML={{ __html: post.content }} />
+      <b>Category:</b> {post.category}
       <p>{post.shortDescription}</p>
       <p>{dateToStr(post.publishedDate)}</p>
       <p>{post.author}</p>
 
       <Link to={`/post/edit/${post.id}`}>
-                <Button variant="primary">Edit</Button>
-              </Link>
+        <Button variant="primary">Edit</Button>
+      </Link>
       <Button variant="primary" onClick={handleShow}>
         Delete
       </Button>

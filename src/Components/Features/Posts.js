@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { getAllPosts } from '../../Redux/postsRedux';
 
-const Posts = () => {
+const Posts = ({posts}) => {
 
-  const posts = useSelector(getAllPosts);
+  
   console.log(posts);
 
   if (!Array.isArray(posts)) {
@@ -27,6 +25,9 @@ const Posts = () => {
           <Card key={post.id} className="my-2">
             <Card.Body>
               <Card.Title>{post.title}</Card.Title>
+              <Card.Text className="mb-2">
+                  <b>Category:</b> {post.category}
+                </Card.Text>
               <Card.Text>{post.shortDescription}</Card.Text>
               <Link to={`/post/${post.id}`}>
                 <Button variant="primary">Read more</Button>

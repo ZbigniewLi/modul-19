@@ -5,19 +5,26 @@ import { useForm } from "react-hook-form";
 import { Form } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { getAllCategories } from "../../Redux/categoriesRedux";
 
 
 const PostForm = ({ handleSubmit: action, ...props }) => {
 
+    const categories = useSelector(getAllCategories);
 
     const [title, setTitle] = useState(props.title || '');
     const [author, setAuthor] = useState(props.author || '');
     const [publishedDate, setPublishedDate] = useState(props.publishedDate || '');
     const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
+    const [category, setCategory] = useState(props.category || '');
     const [content, setContent] = useState(props.content || '');
     const [contentError, setContentError] = useState(false);
     const [dateError, setDateError] = useState(false);
+    const [categoryError, setCategoryError] = useState(false);
+    
 
+    
 
     const { register, handleSubmit: validate, formState: { errors } } = useForm();
 
@@ -26,12 +33,14 @@ const PostForm = ({ handleSubmit: action, ...props }) => {
     } */
 
     const handleSubmit = (e) => {
-            const contentPlane = content.replace(/(<([^>]+)>)/ig, '')
+        const contentPlane = content.replace(/(<([^>]+)>)/ig, '')
         setContentError(!contentPlane)
         setDateError(!publishedDate)
-        if (contentPlane && publishedDate) {
-            action(e,{ title, author, publishedDate, shortDescription, content });
-        }
+        setCategoryError(!category || !categories.includes(category));
+
+        if (contentPlane && publishedDate && category && categories.includes(category)) {
+            action(e, { title, author, publishedDate, category, shortDescription, content });
+        };
     };
 
 
@@ -69,15 +78,29 @@ const PostForm = ({ handleSubmit: action, ...props }) => {
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>publishedDate</Form.Label>
-                
+
                 <DatePicker
-  selected={publishedDate}
-  
-  onChange={setPublishedDate} //only when value has changed
-/>
+                    selected={publishedDate}
+
+                    onChange={setPublishedDate} //only when value has changed
+                />
                 {dateError && <small className="d-block form-text text-danger mt-2">This field is required</small>}
             </Form.Group>
 
+            <Form.Group className="mb-3 px-1">
+                <Form.Label className="px-0">Categories</Form.Label>
+                <Form.Select
+                    value={category} onChange={e => setCategory(e.target.value)}>
+                    <option>Select Category</option>
+                    {categories.map((category, index) => (
+                        <option key={index} value={category}>
+                            {category}
+                        </option>
+                    ))}
+
+                </Form.Select>
+                {categoryError && (<small className="d-block form-text text-danger mt-2 px-0">This field is required.</small>)}
+            </Form.Group>
 
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -95,13 +118,10 @@ const PostForm = ({ handleSubmit: action, ...props }) => {
                 )}
             </Form.Group>
 
-
-
-
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>MainContent</Form.Label>
                 <ReactQuill theme="snow" value={content} onChange={setContent} />;
-                { contentError && <small className="d-block form-text text-danger mt-2">This field is required</small>}
+                {contentError && <small className="d-block form-text text-danger mt-2">This field is required</small>}
             </Form.Group>
             <button type="submit">Add Post</button>
 
